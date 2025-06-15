@@ -1,7 +1,7 @@
 const Employee = require("../models/Employee");
 const bcrypt = require("bcryptjs");
+const { JWT_SECRET } = require("../config/config");
 const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../config/config");
 
 exports.login = async (req, res) => {
   const { ecn, password } = req.body;
@@ -12,7 +12,7 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid password" });
 
-    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "7d" });
     const { password: _, ...profile } = user._doc;
     res.json({ token, profile });
   } catch (err) {
