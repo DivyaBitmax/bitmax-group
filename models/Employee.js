@@ -21,6 +21,7 @@ const employeeSchema = new mongoose.Schema({
   designation: String,
   reportingManager: String,
   password: String, // hashed
+  profileImage: String,
 });
 
 module.exports = mongoose.model("Employee", employeeSchema);

@@ -56,3 +56,31 @@ exports.deleteEmployee = async (req, res) => {
   if (!emp) return res.status(404).json({ msg: "Delete failed" });
   res.json({ msg: "Deleted" });
 };
+
+// In employeeController.js
+
+exports.changePassword = async (req, res) => {
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+  const employeeId = req.params.id;
+
+  try {
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ msg: "New passwords do not match" });
+    }
+
+    const user = await Employee.findById(employeeId);
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) return res.status(400).json({ msg: "Incorrect current password" });
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    user.password = hashed;
+    await user.save();
+
+    res.json({ msg: "Password updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server error" });
+  }
+};
