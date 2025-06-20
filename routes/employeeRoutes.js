@@ -9,5 +9,4 @@ router.get("/:id", ctrl.getEmployeeById);
 router.put("/:id", ctrl.updateEmployee);
 router.delete("/:id", ctrl.deleteEmployee);
 router.put("/change-password/:id", ctrl.changePassword);
-
 module.exports = router;
