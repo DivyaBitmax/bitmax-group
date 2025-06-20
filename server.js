@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const connectDB = require("./config/db");
 const employeeRoutes = require("./routes/employeeRoutes");
+const documentRoutes = require("./routes/documentRoutes"); // ✅ Yeh line ADD karo
+
 const { PORT } = require("./config/config");
 
 const app = express();
